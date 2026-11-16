@@ -1,0 +1,411 @@
+/* ============================================================
+   PIT WALL · DESAFIO LIMA
+   Página responsiva feita somente com HTML e CSS.
+   ============================================================ */
+
+/* 1. Cores e fonte reutilizáveis */
+:root {
+    --black: #0b0b0f;
+    --panel: #16161d;
+    --red: #e10600;
+    --white: #f5f5f7;
+    --muted: #92929e;
+    --line: #292932;
+    --field: #0a0a0f;
+    --ferrari: #ef1746;
+    --mclaren: #ff8700;
+    --mercedes: #00d2be;
+    --audi: #aaaab4;
+    --font: 'Titillium Web', 'Segoe UI', sans-serif;
+}
+
+/* 2. Reset e elementos gerais */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html { scroll-behavior: smooth; }
+body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.45;
+}
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+section[id] { scroll-margin-top: 25px; }
+
+/* 3. Botões */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 12px 23px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .4px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border: 2px solid transparent;
+    transition: background-color .2s, color .2s, border-color .2s;
+}
+.btn-primary { background: var(--red); color: white; border-color: var(--red); }
+.btn-primary:hover { background: #b80703; border-color: #b80703; }
+.btn-outline { border-color: var(--white); color: var(--white); background: transparent; }
+.btn-outline:hover { border-color: var(--red); color: white; background: rgba(225, 6, 0, .15); }
+
+/* 4. Cabeçalho: logo | menu | botão em flex */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 76px;
+    padding: 14px 3.8%;
+    border-bottom: 1px solid var(--line);
+    background: var(--black);
+}
+.logo {
+    flex-shrink: 0;
+    font-size: 21px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+.logo span, .footer span { color: var(--red); }
+.menu { display: flex; align-items: center; gap: 32px; }
+.menu a {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .65px;
+    text-transform: uppercase;
+    transition: color .2s;
+}
+.menu a:hover { color: var(--white); }
+
+/* 5. Hero com duas camadas: corte inclinado + foto */
+.hero {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    min-height: 450px;
+    padding: 68px 3.8% 50px;
+    background:
+        linear-gradient(110deg,
+            var(--black) 0%, var(--black) 62%,
+            var(--red) 62%, var(--red) 64%,
+            rgba(11, 11, 15, .35) 64%),
+        url('img/piloto.jpg') right center / cover no-repeat;
+}
+.hero-content { position: relative; z-index: 1; max-width: 58%; }
+.eyebrow {
+    margin: 9px 0 18px;
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.3px;
+    text-transform: uppercase;
+}
+.hero h1 {
+    font-size: clamp(3.7rem, 7.4vw, 6.6rem);
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -2.7px;
+    line-height: .94;
+    text-transform: uppercase;
+}
+.hero h1 span { display: block; color: var(--red); }
+.hero-description {
+    max-width: 520px;
+    margin-top: 23px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.65;
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 23px; }
+.track-info {
+    position: absolute;
+    right: 3.8%;
+    bottom: 50px;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    color: var(--white);
+}
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 112px;
+    padding: 0 18px;
+    border-left: 1px solid rgba(245, 245, 247, .2);
+}
+.info:first-child { border-left: 0; }
+.info strong {
+    font-size: 35px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -1px;
+    line-height: .98;
+}
+.info span {
+    margin-top: 3px;
+    color: #aaaab5;
+    font-size: 10px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+/* Faixa listrada da pista */
+.kerb {
+    height: 12px;
+    background: repeating-linear-gradient(90deg,
+        var(--red) 0, var(--red) 40px,
+        var(--white) 40px, var(--white) 80px);
+}
+
+/* 6. Área principal e títulos de seções */
+.container { width: min(81.5%, 1140px); margin: 0 auto; }
+.section { margin-top: 60px; }
+.section-heading { display: flex; align-items: baseline; gap: 15px; margin-bottom: 24px; }
+.section-number { color: var(--red); font-size: 14px; font-weight: 900; font-style: italic; }
+.section-heading h2 {
+    color: var(--white);
+    font-size: 30px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -.8px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+/* 7. Cards dos pilotos com grid auto-fit */
+.drivers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+}
+.team-ferrari { --team: var(--ferrari); }
+.team-mclaren { --team: var(--mclaren); }
+.team-mercedes { --team: var(--mercedes); }
+.team-audi { --team: var(--audi); }
+.driver-card {
+    min-height: 158px;
+    padding: 22px 19px 20px;
+    background: var(--panel);
+    border-top: 5px solid var(--team);
+    transition: transform .2s, background-color .2s;
+}
+.driver-card:hover { transform: translateY(-6px); background: #1b1b25; }
+.car-number {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--team);
+    font-size: 77px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -3px;
+    line-height: .76;
+    opacity: .37;
+}
+.driver-card h3 { font-size: 16px; font-weight: 400; line-height: 1.2; text-transform: uppercase; }
+.driver-card h3 strong { font-weight: 900; }
+.driver-card p { margin-top: 2px; color: var(--muted); font-size: 13px; }
+
+/* 8. Classificação: filtros de flex e tabela semântica */
+.standings-section { margin-top: 58px; }
+.filters { display: flex; align-items: end; gap: 14px; margin-bottom: 14px; }
+.filter-item { display: flex; flex: 1 1 0; flex-direction: column; min-width: 0; }
+.filter-item label, .form-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+input, select, textarea {
+    width: 100%;
+    min-height: 43px;
+    padding: 10px 13px;
+    color: var(--white);
+    background: var(--field);
+    border: 1px solid var(--line);
+    border-radius: 0;
+}
+input::placeholder, textarea::placeholder { color: #73737f; }
+select { cursor: pointer; }
+.filter-button { min-height: 43px; padding-inline: 24px; }
+.table-scroll { max-width: 100%; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+thead { background: var(--panel); }
+th {
+    padding: 12px 16px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+}
+td {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+    font-size: 13px;
+    white-space: nowrap;
+}
+tbody tr.leader td { background: rgba(225, 6, 0, .14); }
+tbody tr:hover td { background: #22222c; }
+tbody tr.leader:hover td { background: rgba(225, 6, 0, .23); }
+.pos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--white);
+    color: #111116;
+    font-size: 14px;
+    font-weight: 900;
+}
+.leader .pos { color: white; background: var(--red); }
+.driver-name { display: inline-flex; align-items: center; gap: 8px; }
+.bar { display: inline-block; width: 4px; height: 17px; background: var(--team); }
+.muted { color: var(--muted); font-size: 12px; text-transform: uppercase; }
+td strong { font-weight: 900; }
+
+/* 9. Ingressos: grid externo (texto | form) e grid interno */
+.tickets {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 42px;
+    align-items: start;
+    margin-top: 62px;
+    margin-bottom: 72px;
+}
+.tickets-description { margin-top: 20px; margin-bottom: 25px; color: var(--muted); font-size: 15px; }
+.ticket-alert {
+    padding: 13px 16px;
+    color: #ffd400;
+    background: #28220b;
+    border-left: 4px solid #ffd400;
+    font-size: 14px;
+    font-weight: 800;
+}
+.price-list { list-style: none; margin-top: 12px; }
+.price-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+}
+.price-list strong { color: var(--red); font-weight: 800; white-space: nowrap; }
+.ticket-form {
+    padding: 28px 29px;
+    background: var(--panel);
+    border-top: 4px solid var(--red);
+}
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 19px; }
+.form-group { min-width: 0; }
+.form-group input, .form-group select, .form-group textarea { font-size: 13px; }
+.form-group small { display: block; margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+.full { grid-column: 1 / -1; }
+input[type="file"] {
+    min-height: 48px;
+    padding: 10px;
+    border-style: dashed;
+    color: var(--muted);
+    font-size: 12px;
+}
+input[type="file"]::file-selector-button {
+    margin-right: 7px;
+    border: 0;
+    padding: 5px 8px;
+    background: #6c6c74;
+    color: #fff;
+    cursor: pointer;
+}
+textarea { display: block; min-height: 80px; resize: vertical; }
+.reserve-button { width: 100%; min-height: 45px; }
+
+/* 10. Rodapé com nome completo do autor */
+.footer {
+    padding: 25px 16px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 12px;
+}
+
+/* 11. Layout adaptado para celular/tablet */
+@media (max-width: 768px) {
+    .topbar { min-height: 62px; padding: 12px 15px; gap: 10px; }
+    .logo { font-size: 18px; }
+    .menu { display: none; }
+    .header-button { min-height: 40px; padding: 9px 12px; font-size: 10px; }
+
+    .hero {
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 406px;
+        padding: 36px 18px 28px;
+        background:
+            linear-gradient(rgba(11,11,15,.86), rgba(11,11,15,.86)),
+            url('img/piloto.jpg') right center / cover no-repeat;
+    }
+    .hero-content { max-width: 100%; }
+    .eyebrow { max-width: 300px; margin: 0 0 12px; font-size: 9px; line-height: 1.45; letter-spacing: 1.5px; }
+    .hero h1 { font-size: clamp(2.9rem, 9.6vw, 3.4rem); letter-spacing: -1.2px; }
+    .hero-description { max-width: 335px; margin-top: 15px; font-size: 13px; line-height: 1.5; }
+    .desktop-break { display: none; }
+    .hero-actions { flex-wrap: nowrap; gap: 9px; margin-top: 17px; }
+    .hero-actions .btn { min-height: 39px; padding: 10px 11px; font-size: 10px; }
+    .track-info { position: static; justify-content: center; margin-top: 22px; }
+    .info { min-width: 0; flex: 1; padding: 0 7px; }
+    .info strong { font-size: 29px; }
+    .info span { font-size: 9px; letter-spacing: .7px; }
+    .kerb { height: 9px; background-size: auto; }
+
+    .container { width: auto; margin: 0 16px; }
+    .section { margin-top: 48px; }
+    .section-heading { gap: 10px; margin-bottom: 19px; }
+    .section-heading h2 { font-size: 25px; }
+    .section-number { font-size: 12px; }
+    .drivers { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .driver-card { min-height: 132px; padding: 15px 11px; border-top-width: 4px; }
+    .car-number { font-size: 57px; margin-bottom: 8px; letter-spacing: -2px; }
+    .driver-card h3 { font-size: 12px; }
+    .driver-card p { font-size: 11px; }
+
+    .filters { flex-direction: column; align-items: stretch; gap: 12px; }
+    .filter-item { width: 100%; }
+    .filter-button { width: 100%; }
+    .table-scroll { margin-right: -16px; padding-right: 16px; }
+    table { min-width: 690px; }
+    td { white-space: nowrap; }
+
+    .tickets { grid-template-columns: 1fr; gap: 30px; }
+    .tickets-description { margin-top: 0; }
+    .ticket-form { padding: 20px 15px; }
+    .form-grid { grid-template-columns: 1fr; gap: 15px; }
+    .footer { font-size: 11px; }
+}
+
+/* Um pouco mais de espaço nos botões em aparelhos muito estreitos */
+@media (max-width: 350px) {
+    .hero-actions { flex-wrap: wrap; }
+    .hero-actions .btn { flex: 1 1 130px; }
+    .hero h1 { font-size: 2.75rem; }
+    .section-heading h2 { font-size: 22px; }
+}
